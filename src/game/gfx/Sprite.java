@@ -8,6 +8,7 @@ public class Sprite
 	public SpriteSheet ss;
 	
 	public static Sprite floor = new Sprite(16, 0, 0, SpriteSheet.tiles); 
+	public static Sprite wall = new Sprite(16,  1, 0, SpriteSheet.tiles); 
 	
 	public Sprite(int size, int x, int y, SpriteSheet ss)
 	{

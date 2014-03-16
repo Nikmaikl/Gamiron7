@@ -1,6 +1,8 @@
 package game.main;
 
 import game.gfx.Screen;
+import game.level.Level;
+import game.level.RandomLevel;
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -30,10 +32,14 @@ public class Game extends Canvas implements Runnable
 	private int[] pixels = ((DataBufferInt)img.getRaster().getDataBuffer()).getData();
 	
 	private Screen screen;
+	private Level level;
+	
+	private int x, y;
 	
 	private void init()
 	{
 		screen = new Screen();
+		level = new RandomLevel(64, 64);
 	}
 	
 	public synchronized void start()
@@ -62,7 +68,7 @@ public class Game extends Canvas implements Runnable
 			return;
 		}
 		
-		screen.render();
+		level.render(x, y, screen);
 		for(int i = 0; i < pixels.length; i++)
 		{
 			pixels[i] = screen.pixels[i];
@@ -82,7 +88,8 @@ public class Game extends Canvas implements Runnable
 	
 	private void tick()
 	{
-	
+		
+		x++;
 	}
 	
 	public void run()

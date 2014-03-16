@@ -1,11 +1,13 @@
 package game.gfx;
 
+import game.level.tile.Tile;
 import game.main.Game;
 
 public class Screen {
 	public int width, height;
 	public int[] pixels;
 	public int[] tiles;
+	public int xOffset, yOffset;
 	
 	public Screen()
 	{
@@ -13,15 +15,27 @@ public class Screen {
 		height = Game.HEIGHT;
 		pixels = new int[width * height];
 	}
-	
-	public void render()
+
+	public void renderTile(int xp, int yp, Tile tile)
 	{
-		for(int y = 0; y < height; y++)
+		xp -= xOffset;
+		yp -= yOffset;
+		for(int y = 0; y < tile.sprite.size; y++)
 		{
-			for(int x = 0; x < width; x++)
+			int yy = yp + y;
+			for(int x = 0; x < tile.sprite.size; x++)
 			{
-				pixels[x + y * width] = Sprite.floor.pixels[(x & 15) + (y & 15) * Sprite.floor.size];
+				int xx = xp + x;
+				if(xx < -tile.sprite.size || yy < 0 || yy >= height || xx >= width) break;
+				if(xx < 0) xx = 0;
+				pixels[xx + yy * width] = tile.sprite.pixels[x + y * tile.sprite.size];
 			}
 		}
+	}
+	
+	public void setOffset(int xOffset, int yOffset)
+	{
+		this.xOffset = xOffset;
+		this.yOffset = yOffset;
 	}
 }
