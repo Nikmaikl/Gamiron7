@@ -20,9 +20,9 @@ public class Game extends Canvas implements Runnable
 {
 	private static final long serialVersionUID = 1L;
 	public static final int WIDTH = 300;
-	public static final int HEIGHT = WIDTH / 4 * 3;
+	public static final int HEIGHT = WIDTH / 4 * 3; //675
 	public static final int SCALE = 3;
-	public static final String TITLE = "";
+	public static final String TITLE = "Gamiron 7 (Alpha 1.0)";
 	
 	private Thread thread;
 	private boolean running = false;
@@ -42,7 +42,7 @@ public class Game extends Canvas implements Runnable
 	{
 		key = new Keyboard();
 		screen = new Screen();
-		level = new RandomLevel(64, 64);
+		level = new RandomLevel(32, 32);
 		
 		this.addKeyListener(key);
 	}
@@ -94,10 +94,16 @@ public class Game extends Canvas implements Runnable
 	private void tick()
 	{
 		key.tick();
-		if(key.isRight) x++;
-		if(key.isLeft) x--;
-		if(key.isUp) y--;
-		if(key.isDown) y++;
+		
+		if(x < -32) x = -32;
+		if(y < -32) y = -32;
+		if(x > WIDTH - 56) x = WIDTH - 56;
+		if(y > HEIGHT + 96) y = HEIGHT + 96;
+
+		if(key.isRight) x += 2;
+		if(key.isLeft) x -= 2;
+		if(key.isUp) y -= 2;
+		if(key.isDown) y += 2;
 	}
 	
 	public void run()
