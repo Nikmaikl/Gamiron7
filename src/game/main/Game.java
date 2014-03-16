@@ -1,6 +1,7 @@
 package game.main;
 
 import game.gfx.Screen;
+import game.input.Keyboard;
 import game.level.Level;
 import game.level.RandomLevel;
 
@@ -33,13 +34,17 @@ public class Game extends Canvas implements Runnable
 	
 	private Screen screen;
 	private Level level;
+	private Keyboard key;
 	
 	private int x, y;
 	
 	private void init()
 	{
+		key = new Keyboard();
 		screen = new Screen();
 		level = new RandomLevel(64, 64);
+		
+		this.addKeyListener(key);
 	}
 	
 	public synchronized void start()
@@ -88,8 +93,11 @@ public class Game extends Canvas implements Runnable
 	
 	private void tick()
 	{
-		
-		x++;
+		key.tick();
+		if(key.isRight) x++;
+		if(key.isLeft) x--;
+		if(key.isUp) y--;
+		if(key.isDown) y++;
 	}
 	
 	public void run()
