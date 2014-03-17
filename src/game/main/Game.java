@@ -1,5 +1,6 @@
 package game.main;
 
+import game.entity.mob.Player;
 import game.gfx.Screen;
 import game.input.Keyboard;
 import game.level.Level;
@@ -35,6 +36,7 @@ public class Game extends Canvas implements Runnable
 	private Screen screen;
 	private Level level;
 	private Keyboard key;
+	private Player player;
 	
 	private int x, y;
 	
@@ -43,6 +45,9 @@ public class Game extends Canvas implements Runnable
 		key = new Keyboard();
 		screen = new Screen();
 		level = new RandomLevel(32, 32);
+		player = new Player(WIDTH/2, HEIGHT/2, key);
+		
+		player.init(level);
 		
 		this.addKeyListener(key);
 	}
@@ -72,8 +77,11 @@ public class Game extends Canvas implements Runnable
 			createBufferStrategy(3);
 			return;
 		}
+		int xScroll = player.x - screen.width / 2;
+		int yScroll = player.y - screen.height / 2;
 		
-		level.render(x, y, screen);
+		level.render(xScroll, yScroll, screen);
+		player.render(screen);
 		for(int i = 0; i < pixels.length; i++)
 		{
 			pixels[i] = screen.pixels[i];
@@ -94,6 +102,7 @@ public class Game extends Canvas implements Runnable
 	private void tick()
 	{
 		key.tick();
+		player.tick();
 		
 		if(x < -32) x = -32;
 		if(y < -32) y = -32;

@@ -33,6 +33,23 @@ public class Screen {
 		}
 	}
 	
+	public void renderPlayer(int xp, int yp, Sprite sprite)
+	{
+		xp -= xOffset;
+		yp -= yOffset;
+		for(int y = 0; y < 16; y++)
+		{
+			int yy = yp + y;
+			for(int x = 0; x < 16; x++)
+			{
+				int xx = xp + x;
+				if(xx < -16 || yy < 0 || yy >= height || xx >= width) break;
+				if(xx < 0) xx = 0;
+				pixels[xx + yy * width] = sprite.pixels[x + y * 16];
+			}
+		}
+	}
+	
 	public void setOffset(int xOffset, int yOffset)
 	{
 		this.xOffset = xOffset;
